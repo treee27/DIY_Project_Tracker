@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>All Projects | DIY Tracker</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <style>
+    /* ------------------------- */
+    /* --- GLOBAL STYLES & VARS --- */
+    /* ------------------------- */
+    :root {
+      --color-primary: #0077b6;
+      --color-secondary: #00b4d8;
+      --color-accent: #ffb703;
+      --color-danger: #d00000;
+      --color-dark: #111827;
+      --color-light: #f8f9fa;
+      --color-surface: #ffffff;
+      --color-text: #343a40;
+      --color-text-light: #6c757d;
+      --shadow-md: 0 4px 15px rgba(0, 0, 0, 0.08);
+      --shadow-lg: 0 8px 30px rgba(0, 0, 0, 0.12);
+      --border-radius: 16px;
+      --transition-fast: all 0.2s ease-in-out;
+      --transition-smooth: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background-color: var(--color-light);
+      font-family: 'Poppins', sans-serif;
+      color: var(--color-text);
+      line-height: 1.6;
+    }
+
+    .container {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+    }
+
+    /* ------------------------- */
+    /* --- NAVBAR --- */
+    /* ------------------------- */
+    .navbar {
+      background-color: var(--color-dark);
+      padding: 1rem 0;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    .navbar-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .navbar-brand {
+      color: var(--color-surface);
+      font-weight: 700;
+      font-size: 1.5rem;
+      text-decoration: none;
+    }
+
+    .btn-new-project {
+      background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
+      color: #fff;
+      font-weight: 600;
+      padding: 0.6rem 1.2rem;
+      border-radius: 8px;
+      text-decoration: none;
+      transition: var(--transition-fast);
+      box-shadow: 0 2px 8px rgba(0, 119, 182, 0.3);
+    }
+
+    .btn-new-project:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0, 119, 182, 0.4);
+    }
+
+    /* ------------------------- */
+    /* --- MAIN CONTENT & CARDS --- */
+    /* ------------------------- */
+    .main-content {
+      padding: 3rem 0;
+    }
+
+    .main-title {
+      font-size: 2.5rem;
+      font-weight: 700;
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+
+    .project-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 2rem;
+    }
+
+    .project-card {
+      background: var(--color-surface);
+      border-radius: var(--border-radius);
+      box-shadow: var(--shadow-md);
+      transition: var(--transition-smooth);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .project-card:hover {
+      transform: translateY(-10px);
+      box-shadow: var(--shadow-lg);
+    }
+
+    .card-image-wrapper {
+      position: relative;
+      height: 220px;
+      overflow: hidden;
+    }
+
+    .card-image {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s ease;
+    }
+    
+    .project-card:hover .card-image {
+      transform: scale(1.08);
+    }
+
+    .card-image-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      color: #fff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 2rem;
+      opacity: 0;
+      transition: var(--transition-fast);
+    }
+
+    .project-card:hover .card-image-overlay {
+      opacity: 1;
+    }
+
+    .card-body {
+      padding: 1.5rem;
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .card-title {
+      font-size: 1.25rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+    }
+
+    .card-text {
+      font-size: 0.9rem;
+      color: var(--color-text-light);
+      margin-bottom: 1rem;
+      flex-grow: 1;
+    }
+
+    .card-meta {
+      margin-top: auto;
+    }
+    
+    .status-badge {
+      display: inline-block;
+      padding: 0.3em 0.8em;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: #fff;
+    }
+    .status-completed { background-color: #2a9d8f; }
+    .status-in-progress { background-color: var(--color-accent); color: var(--color-dark); }
+    .status-not-started { background-color: #6c757d; }
+
+    .progress-bar-container {
+        background-color: #e9ecef;
+        border-radius: 20px;
+        height: 8px;
+        margin-top: 0.75rem;
+        overflow: hidden;
+    }
+
+    .progress-bar {
+        height: 100%;
+        background: linear-gradient(90deg, var(--color-secondary), var(--color-primary));
+        border-radius: 20px;
+        transition: width 0.5s ease;
+    }
+    
+    .card-footer {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.5rem;
+      padding: 0.75rem 1.5rem;
+      background-color: var(--color-light);
+      border-top: 1px solid #e9ecef;
+    }
+
+    .btn-card {
+      background: none;
+      border: none;
+      padding: 0.5rem;
+      font-family: 'Poppins', sans-serif;
+      font-weight: 600;
+      border-radius: 8px;
+      cursor: pointer;
+      text-align: center;
+      text-decoration: none;
+      transition: var(--transition-fast);
+      font-size: 0.9rem;
+      width: 100%;
+    }
+
+    .btn-view { color: var(--color-primary); background-color: rgba(0, 119, 182, 0.1); }
+    .btn-view:hover { background-color: var(--color-primary); color: #fff; }
+
+    .btn-edit { color: var(--color-accent); background-color: rgba(255, 183, 3, 0.15); }
+    .btn-edit:hover { background-color: var(--color-accent); color: var(--color-dark); }
+    
+    .btn-delete { color: var(--color-danger); background-color: rgba(208, 0, 0, 0.1); }
+    .btn-delete:hover { background-color: var(--color-danger); color: #fff; }
+
+    form { display: contents; } /* Allows form to blend into grid/flex layout */
+    
+    /* ------------------------- */
+    /* --- FOOTER --- */
+    /* ------------------------- */
+    .footer {
+      background-color: var(--color-dark);
+      color: rgba(255, 255, 255, 0.7);
+      padding: 2rem 0;
+      text-align: center;
+      margin-top: 3rem;
+    }
+    .social-icons a {
+      color: rgba(255, 255, 255, 0.7);
+      margin: 0 0.5rem;
+      font-size: 1.2rem;
+      text-decoration: none;
+      transition: var(--transition-fast);
+    }
+    .social-icons a:hover {
+      color: var(--color-secondary);
+      transform: translateY(-2px);
+    }
+    
+    /* ------------------------- */
+    /* --- RESPONSIVE STYLES --- */
+    /* ------------------------- */
+    @media (max-width: 768px) {
+      .main-title {
+        font-size: 2rem;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <nav class="navbar">
+    <div class="container navbar-container">
+      <a class="navbar-brand" href="/">
+        <i class="fas fa-tools"></i> DIY Tracker
+      </a>
+      <a href="/projects/new" class="btn-new-project">
+        <i class="fas fa-plus"></i> Add New Project
+      </a>
+    </div>
+  </nav>
+
+  <main class="main-content">
+    <div class="container">
+      <h1 class="main-title">📋 All DIY Projects</h1>
+
+      <div class="project-grid">
+        <% if (projects.length > 0) { %>
+          <% projects.forEach(project => { %>
+            <div class="project-card">
+              <a href="/projects/<%= project._id %>" class="card-image-wrapper">
+                <% if (project.imagePath) { %>
+                  <img src="<%= project.imagePath %>" class="card-image" alt="Project Image">
+                <% } else { %>
+                  <img src="https://images.unsplash.com/photo-1589939705384-5185137a7f0f?q=80&w=2070&auto=format&fit=crop" class="card-image" alt="Placeholder">
+                <% } %>
+                <div class="card-image-overlay">
+                    <i class="fas fa-search-plus"></i>
+                </div>
+              </a>
+
+              <div class="card-body">
+                <h5 class="card-title"><%= project.title %></h5>
+                <p class="card-text"><%= project.description.substring(0, 100) %>...</p>
+                
+                <div class="card-meta">
+                  <span class="status-badge 
+                    <%= project.status === 'Completed' ? 'status-completed' : project.status === 'In Progress' ? 'status-in-progress' : 'status-not-started' %>">
+                    <i class="fas fa-check-circle"></i> <%= project.status || 'Not Started' %>
+                  </span>
+                  <div class="progress-bar-container" title="Progress: <%= project.progress || 0 %>%">
+                    <div class="progress-bar" style="width: <%= project.progress || 0 %>%;"></div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="card-footer">
+                <a href="/projects/<%= project._id %>" class="btn-card btn-view">
+                  <i class="fas fa-eye"></i> View
+                </a>
+                <a href="/projects/<%= project._id %>/edit" class="btn-card btn-edit">
+                  <i class="fas fa-pencil-alt"></i> Edit
+                </a>
+                <form action="/projects/<%= project._id %>?_method=DELETE" method="POST" onsubmit="return confirm('Are you sure you want to delete this project?');">
+                  <button type="submit" class="btn-card btn-delete">
+                    <i class="fas fa-trash-alt"></i> Delete
+                  </button>
+                </form>
+              </div>
+            </div>
+          <% }) %>
+        <% } else { %>
+          <p class="text-center" style="grid-column: 1 / -1;">No projects yet. Click “Add New Project” to start one!</p>
+        <% } %>
+      </div>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <p>&copy; <%= new Date().getFullYear() %> DIY Project Tracker. All Rights Reserved.</p>
+      <div class="social-icons">
+        <a href="#" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
+        <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+        <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+        <a href="#" aria-label="Pinterest"><i class="fab fa-pinterest"></i></a>
+      </div>
+    </div>
+  </footer>
+
+</body>
+
+</html>
